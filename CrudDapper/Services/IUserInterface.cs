@@ -1,6 +1,6 @@
 ﻿namespace CrudDapper.Services
 {
-    public interface IUserService
+    public interface IUserInterface
     {
     }
 }
