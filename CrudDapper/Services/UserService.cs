@@ -38,10 +38,30 @@ namespace CrudDapper.Services
                 //structure: _mapper.Map<to whom I want to transform> (who I'll transform);
                 var mappedUser = _mapper.Map<List<UserListDto>>(usersDataBase);
                 response.Datas = mappedUser;
-                response.Status = true;
                 response.Message = "Successfully located users";
             }
             return response;
          }
+        public async Task<ResponseModel<UserListDto>> GetUserById(int userId)
+        {
+            ResponseModel<UserListDto> response = new ResponseModel<UserListDto>();
+            
+            using(var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var userFromDataBase = await connection.QueryFirstOrDefaultAsync<User>("SELECT * FROM Users where id = @Id", new {Id = userId});
+
+                if(userFromDataBase == null)
+                {
+                    response.Message = "No users found!";
+                    response.Status = false;
+                    return response;
+                }
+
+                var mappedUser = _mapper.Map<UserListDto>(userFromDataBase);
+                response.Datas = mappedUser;
+                response.Message = "Successfully found user!";
+            }
+            return response;
+        }    
     }
 }

@@ -20,10 +20,19 @@ namespace CrudDapper.Controllers
             var users = await _userInterface.GetUsers();
             
             if(users.Status == false)
-            {
                 return NotFound(users);
-            }
+
             return Ok(users);
+        }
+
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+            var user = await _userInterface.GetUserById(userId);
+            if(user.Status == false)
+                return NotFound(user);
+
+            return Ok(user);
         }
     }
 }
