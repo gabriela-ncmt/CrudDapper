@@ -131,5 +131,27 @@ namespace CrudDapper.Services
             }
             return response;
         }
+
+        public async Task<ResponseModel<List<UserListDto>>> DeleteUser(int userId)
+        {
+            ResponseModel<List<UserListDto>> response = new ResponseModel<List<UserListDto>>();
+
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var usersDataBase = await connection.ExecuteAsync("DELETE FROM Users WHERE id = @Id", new { Id = userId });
+
+                if (usersDataBase == 0)
+                    response.Message = "An error occurred while deleting!";
+                    response.Status = false;
+
+                var users = await UsersList(connection);
+                var mappedUsers = _mapper.Map<List<UserListDto>>(users);
+
+                response.Datas = mappedUsers;
+                response.Message = "Users successfully listed";
+
+            }
+            return response;
+        }
     }
 }
