@@ -99,5 +99,37 @@ namespace CrudDapper.Services
         {
             return await connection.QueryAsync<User>("SELECT * FROM Users");
         }
+
+        public async Task<ResponseModel<List<UserListDto>>> EditUser(EditUserDto editUserDto)
+        {
+            ResponseModel<List<UserListDto>> response = new ResponseModel<List<UserListDto>>();
+
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var usersDataBase = await connection.ExecuteAsync(
+                    "UPDATE Users SET" +
+                    " FullName = @FullName," +
+                    " Email = @Email," +
+                    " Position = @Position," +
+                    " Salary = @Salary," +
+                    " CPF = @CPF," +
+                    " Situation = @Situation" +
+                    " WHERE id = @Id", editUserDto);
+
+                if(usersDataBase == 0)
+                {
+                    response.Message = "An error occured while editing!";
+                    response.Status= false;
+                }
+
+                var users = await UsersList(connection);
+
+                var mappedUsers = _mapper.Map<List<UserListDto>>(users);
+
+                response.Datas = mappedUsers;
+                response.Message = "Users successfully listed";
+            }
+            return response;
+        }
     }
 }

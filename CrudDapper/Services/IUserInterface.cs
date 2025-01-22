@@ -9,5 +9,7 @@ namespace CrudDapper.Services
         Task<ResponseModel<UserListDto>> GetUserById(int userId);
 
         Task<ResponseModel<List<UserListDto>>> CreateUser (CreateUserDto createUserDto);
+
+        Task<ResponseModel<List<UserListDto>>> EditUser(EditUserDto editUserDto);
     }
 }
