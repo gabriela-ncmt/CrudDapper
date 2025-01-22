@@ -62,6 +62,42 @@ namespace CrudDapper.Services
                 response.Message = "Successfully found user!";
             }
             return response;
-        }    
+        } 
+        
+        public async Task<ResponseModel<List<UserListDto>>> CreateUser(CreateUserDto createUserDto)
+        {
+            ResponseModel<List<UserListDto>> response = new ResponseModel<List<UserListDto>>();
+
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                var createdUser = await connection.ExecuteAsync
+                    (
+                    "INSERT INTO Users" +
+                    " (FullName, Email, Position, Salary, CPF, Password, Situation)" +
+                    "VALUES (@FullName, @Email, @Position, @Salary, @CPF, @Password, @Situation)", createUserDto
+                    );
+
+                if(createdUser == 0)
+                {
+                    response.Message = "An error occurred while registering";
+                    response.Status = false;
+                    return response;
+                }
+
+                var users = await UsersList(connection);
+
+                var mappedUsers = _mapper.Map<List<UserListDto>>(users);
+
+                response.Datas = mappedUsers;
+                response.Message = "Users successfully listed";
+            }
+            return response;
+
+        }
+
+        private static async Task<IEnumerable<User>> UsersList(SqlConnection connection)
+        {
+            return await connection.QueryAsync<User>("SELECT * FROM Users");
+        }
     }
 }

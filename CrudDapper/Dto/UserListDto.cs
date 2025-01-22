@@ -10,6 +10,6 @@
         public string Position { get; set; }
 
         public double Salary { get; set; }
-        public double Situation { get; set; }
+        public bool Situation { get; set; }
     }
 }
