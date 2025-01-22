@@ -33,6 +33,7 @@ Primeiro, clone este repositório em sua máquina:
 git clone https://github.com/gabriela-ncmt/CrudDapper.git
 ```
 3. Configurar o Banco de Dados
+   
 Crie um banco de dados no SQL Server com o nome de *CrudDapper*.
 
 Importe ou crie a tabela de usuários com o seguinte esquema:
