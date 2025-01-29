@@ -4,6 +4,8 @@
 
 Este projeto foi desenvolvido com base no tutorial do vídeo do YouTube: [Curso Completo | CRUD com DAPPER | WEB API com .NET 8 e SQL Server | CRUD + Repository Pattern 💻](https://www.youtube.com/watch?v=mmFw3OXlouo). O objetivo do projeto é implementar um CRUD (Create, Read, Update, Delete) de usuários, utilizando o Dapper como ORM, o padrão Repository Pattern e a biblioteca AutoMapper para mapear objetos.
 
+Créditos a: [CrislaineLuana](https://github.com/CrislaineLuana)
+
 ### Tecnologias Utilizadas: 
 - .NET 8
 - SQL Server
